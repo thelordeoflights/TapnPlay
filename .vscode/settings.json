@@ -52,5 +52,5 @@
         "Temp/": true
     },
     "dotnet.preferCSharpExtension": true,
-    "dotnet.defaultSolution": "My Hotel.sln"
+    "dotnet.defaultSolution": "TapnPlay.sln"
 }
