@@ -11,14 +11,26 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform moneySpawn;
     [SerializeField] GameObject money;
     [SerializeField] CurrencyState currencyState;
-    [SerializeField] ParticleSystem ps;
+    [SerializeField] ParticleSystem _particleSystem;
+
+    [SerializeField] GameObject npcPrefab;
+
+    [SerializeField] Transform npcSpawn;
+    [SerializeField] Transform platformPosition;
+
+    [SerializeField] private QueueState queueState;
+
+    QueueHandler queueHandler;
+
+    public AudioSource audioSource;
+
+
     public GameObject Buttons;
     public Button areaButton;
     public Button kioskButton;
     public float minWait;
     public float maxWait;
 
-    GameObject _money;
 
 
     private bool isSpawning;
@@ -27,25 +39,33 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         isSpawning = false;
+        _particleSystem.Stop();
+        audioSource.Stop();
+        queueHandler = GetComponent<QueueHandler>();
     }
 
     void Update()
     {
-        _money = GameObject.FindWithTag("Money").GetComponent<GameObject>();
         EnableButtons();
-        if (!isSpawning)
+        // if (!isSpawning)
+        // {
+        //     float timer = Random.Range(minWait, maxWait);
+        //     Invoke("SpawnObject", timer);
+        //     isSpawning = true;
+        // }
+
+        if (queueState.availableSlots > 0)
         {
-            float timer = Random.Range(minWait, maxWait);
-            Invoke("SpawnObject", timer);
-            isSpawning = true;
+            SpawnNCP();
         }
-        PlayEffects();
+
+
     }
 
     void SpawnObject()
     {
         Instantiate(money, moneySpawn, true);
-        isSpawning = false;
+        // isSpawning = false;
     }
     void EnableButtons()
     {
@@ -77,20 +97,21 @@ public class GameManager : MonoBehaviour
         kioskButton.gameObject.SetActive(false);
 
     }
-    void PlayEffects()
+    public void PlayParticle()
     {
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit raycastHit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out raycastHit, 100f))
-            {
-                if (raycastHit.transform == _money)
-                {
-                    ps.Play();
-                }
-            }
-        }
+        _particleSystem.Play();
     }
+
+    public void MoneyCollected()
+    {
+        queueHandler.processNpcInFirst(platformPosition.position);
+    }
+
+    public void SpawnNCP()
+    {
+        var npcObject = Instantiate(npcPrefab, npcSpawn.position, npcSpawn.rotation);
+        queueHandler.addNpcInQueue(npcObject);
+        SpawnObject();
+    }
+
 }

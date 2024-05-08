@@ -6,15 +6,13 @@ public class Currency : MonoBehaviour
 {
 
     public int value = 0;
+    GameManager gameManager;
     [SerializeField] CurrencyState currencyState;
-
-
     void Start()
     {
 
+        gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
     }
-
-    // Update is called once per frame
     void Update()
     {
         //Check for mouse click 
@@ -26,11 +24,20 @@ public class Currency : MonoBehaviour
             {
                 if (raycastHit.transform != null && raycastHit.transform == transform)
                 {
-                    currencyState.currency += value;
-                    Destroy(gameObject);
+                    processCurrency();
+
                 }
             }
         }
 
+    }
+
+    private void processCurrency()
+    {
+        currencyState.currency += value;
+        gameManager.PlayParticle();
+        gameManager.audioSource.Play();
+        gameManager.MoneyCollected();
+        Destroy(gameObject);
     }
 }
