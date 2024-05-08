@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7061812762902257791}
   m_Layer: 0
   m_Name: Money
-  m_TagString: Untagged
+  m_TagString: Money
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,3 +112,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 5
   currencyState: {fileID: 11400000, guid: f783dc34327d47640956aa7b601de9a5, type: 2}
+  ps: {fileID: 0}

@@ -28,9 +28,9 @@ public class Currency : MonoBehaviour
                 {
                     currencyState.currency += value;
                     Destroy(gameObject);
-
                 }
             }
         }
+
     }
 }

@@ -27,14 +27,11 @@ public class CameraSwitch : MonoBehaviour
     }
     void OnTimeLineStart(PlayableDirector playableDirector)
     {
-        gameManager.araButton.SetActive(false);
-        gameManager.kioskButton.SetActive(false);
-
+        gameManager.Buttons.SetActive(false);
     }
 
     void OnTimelineEnd(PlayableDirector playableDirector)
     {
-        gameManager.araButton.SetActive(true);
-        gameManager.kioskButton.SetActive(true);
+        gameManager.Buttons.SetActive(true);
     }
 }
